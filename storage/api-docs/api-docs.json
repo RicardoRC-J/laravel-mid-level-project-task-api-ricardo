@@ -39,7 +39,40 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Lista de proyectos"
+                        "description": "Lista de proyectos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mi Proyecto"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Descripción del proyecto"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "active"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -49,9 +82,80 @@
                 ],
                 "summary": "Crear un nuevo proyecto",
                 "operationId": "d91af95183d5934b42aec1325d5165db",
+                "requestBody": {
+                    "description": "Datos del proyecto a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del proyecto",
+                                        "type": "string",
+                                        "example": "Mi Nuevo Proyecto"
+                                    },
+                                    "description": {
+                                        "description": "Descripción del proyecto",
+                                        "type": "string",
+                                        "example": "Descripción detallada del proyecto"
+                                    },
+                                    "status": {
+                                        "description": "Estado del proyecto",
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive",
+                                            "completed"
+                                        ],
+                                        "example": "active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
-                        "description": "Proyecto creado"
+                        "description": "Proyecto creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mi Nuevo Proyecto"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción detallada del proyecto"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "active"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación"
                     }
                 }
             }
@@ -63,9 +167,57 @@
                 ],
                 "summary": "Obtener detalles de un proyecto",
                 "operationId": "4c45d4f68ff6ca2929032424e6da2639",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proyecto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Detalles del proyecto"
+                        "description": "Detalles del proyecto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mi Proyecto"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción del proyecto"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "active"
+                                                },
+                                                "tasks_count": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Proyecto no encontrado"
                     }
                 }
             },
@@ -75,9 +227,89 @@
                 ],
                 "summary": "Actualizar un proyecto",
                 "operationId": "546bd69cc1e45c7e4a50c3da131d0969",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proyecto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos del proyecto a actualizar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del proyecto",
+                                        "type": "string",
+                                        "example": "Proyecto Actualizado"
+                                    },
+                                    "description": {
+                                        "description": "Descripción del proyecto",
+                                        "type": "string",
+                                        "example": "Nueva descripción del proyecto"
+                                    },
+                                    "status": {
+                                        "description": "Estado del proyecto",
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive",
+                                            "completed"
+                                        ],
+                                        "example": "completed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Proyecto actualizado"
+                        "description": "Proyecto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Proyecto Actualizado"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Nueva descripción del proyecto"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "completed"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Proyecto no encontrado"
+                    },
+                    "422": {
+                        "description": "Errores de validación"
                     }
                 }
             },
@@ -87,9 +319,36 @@
                 ],
                 "summary": "Eliminar un proyecto",
                 "operationId": "ef93971582acea3d860c54c21c5fd8e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proyecto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Proyecto eliminado"
+                        "description": "Proyecto eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Proyecto eliminado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Proyecto no encontrado"
                     }
                 }
             }
@@ -123,13 +382,59 @@
                         "in": "query",
                         "description": "Filtrar por proyecto",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Lista de tareas"
+                        "description": "Lista de tareas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Mi Tarea"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Descripción de la tarea"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "priority": {
+                                                        "type": "string",
+                                                        "example": "high"
+                                                    },
+                                                    "project_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "due_date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-12-31"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -139,9 +444,118 @@
                 ],
                 "summary": "Crear una nueva tarea",
                 "operationId": "9b481c0ed5fdfa1a592d70ba39a348ee",
+                "requestBody": {
+                    "description": "Datos de la tarea a crear",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "status",
+                                    "priority",
+                                    "project_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Título de la tarea",
+                                        "type": "string",
+                                        "example": "Nueva Tarea"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la tarea",
+                                        "type": "string",
+                                        "example": "Descripción detallada de la tarea"
+                                    },
+                                    "status": {
+                                        "description": "Estado de la tarea",
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "in_progress",
+                                            "completed",
+                                            "cancelled"
+                                        ],
+                                        "example": "pending"
+                                    },
+                                    "priority": {
+                                        "description": "Prioridad de la tarea",
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "urgent"
+                                        ],
+                                        "example": "medium"
+                                    },
+                                    "project_id": {
+                                        "description": "ID del proyecto al que pertenece la tarea",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "due_date": {
+                                        "description": "Fecha límite (opcional)",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-12-31"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
-                        "description": "Tarea creada"
+                        "description": "Tarea creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Nueva Tarea"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción detallada de la tarea"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "pending"
+                                                },
+                                                "priority": {
+                                                    "type": "string",
+                                                    "example": "medium"
+                                                },
+                                                "project_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "due_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-12-31"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación"
                     }
                 }
             }
@@ -153,9 +567,83 @@
                 ],
                 "summary": "Obtener detalles de una tarea",
                 "operationId": "fd3677b5b24695d7b801715869b1357c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Detalles de la tarea"
+                        "description": "Detalles de la tarea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Mi Tarea"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción de la tarea"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "pending"
+                                                },
+                                                "priority": {
+                                                    "type": "string",
+                                                    "example": "high"
+                                                },
+                                                "project_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "due_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-12-31"
+                                                },
+                                                "project": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Proyecto Ejemplo"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "active"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
                     }
                 }
             },
@@ -165,9 +653,125 @@
                 ],
                 "summary": "Actualizar una tarea",
                 "operationId": "85377ff0e935f093dd75ea6886923dbc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos de la tarea a actualizar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Título de la tarea",
+                                        "type": "string",
+                                        "example": "Tarea Actualizada"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la tarea",
+                                        "type": "string",
+                                        "example": "Nueva descripción de la tarea"
+                                    },
+                                    "status": {
+                                        "description": "Estado de la tarea",
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "in_progress",
+                                            "completed",
+                                            "cancelled"
+                                        ],
+                                        "example": "in_progress"
+                                    },
+                                    "priority": {
+                                        "description": "Prioridad de la tarea",
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high",
+                                            "urgent"
+                                        ],
+                                        "example": "high"
+                                    },
+                                    "project_id": {
+                                        "description": "ID del proyecto al que pertenece la tarea",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "due_date": {
+                                        "description": "Fecha límite",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-12-31"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Tarea actualizada"
+                        "description": "Tarea actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Tarea Actualizada"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Nueva descripción de la tarea"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "in_progress"
+                                                },
+                                                "priority": {
+                                                    "type": "string",
+                                                    "example": "high"
+                                                },
+                                                "project_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "due_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-12-31"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "422": {
+                        "description": "Errores de validación"
                     }
                 }
             },
@@ -177,9 +781,36 @@
                 ],
                 "summary": "Eliminar una tarea",
                 "operationId": "5ed5dfd4c645e9398f4282969bfe6478",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Tarea eliminada"
+                        "description": "Tarea eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tarea eliminada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
                     }
                 }
             }
