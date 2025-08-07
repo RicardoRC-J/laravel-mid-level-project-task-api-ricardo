@@ -152,28 +152,7 @@ curl -X POST http://localhost:8000/api/tasks \
 "priority": "high",
 "due_date": "2024-12-31"
 }'
-🏗 Arquitectura del Proyecto
-app/
-├── Http/
-│ ├── Controllers/
-│ │ ├── ProjectController.php
-│ │ └── TaskController.php
-│ ├── Requests/
-│ │ ├── StoreProjectRequest.php
-│ │ ├── UpdateProjectRequest.php
-│ │ ├── StoreTaskRequest.php
-│ │ └── UpdateTaskRequest.php
-│ └── Resources/
-│ ├── ProjectResource.php
-│ └── TaskResource.php
-├── Models/
-│ ├── Project.php (con Auditing y SoftDeletes)
-│ └── Task.php (con Auditing)
-├── Services/
-│ ├── ProjectService.php
-│ └── TaskService.php
-└── Traits/
-└── HasUuidTrait.php (para UUIDs automáticos)
+
 📦 Packages Utilizados
 owen-it/laravel-auditing: ^13.0 - Auditoría completa de modelos
 darkaonline/l5-swagger: ^8.5 - Documentación OpenAPI/Swagger
