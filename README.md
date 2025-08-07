@@ -8,7 +8,7 @@ Laravel >= 10.0
 
 1. Clonar el repositorio
    bash
-   git clone https://github.com/tu-usuario/laravel-mid-level-project-task-api-ricardo.git
+   git clone https://github.com/RicardoRC-J/laravel-mid-level-project-task-api-ricardo.git
    cd laravel-mid-level-project-task-api-ricardo
 2. Instalar dependencias
    bash
@@ -23,7 +23,7 @@ env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=project_task_api
+DB_DATABASE=laravel_mid_level_project_task_api_ricardo
 DB_USERNAME=root
 DB_PASSWORD=tu_password
 
